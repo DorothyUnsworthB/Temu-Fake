@@ -1,0 +1,2053 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda en Línea (Simulación)</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .producto:hover {
+      transform: scale(1.03);
+      transition: 0.3s;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .temu-color {
+      background-color: #ffa500;
+    }
+    .temu-text {
+      color: #ffa500;
+    }
+    .temu-hover:hover {
+      background-color: #ffb84d;
+    }
+    .blur-bg {
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+    .blur-bg img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 relative">
+
+  <div class="temu-color text-white p-4 text-center text-2xl font-bold">TEMU</div>
+
+  <div class="blur-bg">
+    <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ab?auto=format&fit=crop&w=1470&q=80" alt="fondo productos">
+  </div>
+
+  <div id="loginPage" class="min-h-screen flex items-center justify-center">
+    <div class="bg-white bg-opacity-90 p-8 rounded shadow-md w-full max-w-md">
+      <h2 class="text-2xl font-bold mb-2 text-center temu-text">Iniciar sesión / Registrarse</h2>
+      <p class="text-sm text-gray-600 text-center mb-6">Todos los datos se cifrarán</p>
+
+      <input id="email" type="email" placeholder="Email" class="w-full mb-4 p-2 border rounded" />
+      <input id="password" type="password" placeholder="Contraseña" class="w-full mb-4 p-2 border rounded" />
+      <button onclick="iniciarSesion()" class="w-full temu-color temu-hover text-white py-2 rounded">Continuar</button>
+
+      <div class="text-center mt-4">
+        <a href="#" class="text-sm text-blue-600">¿Problemas al iniciar sesión?</a>
+      </div>
+
+      <div class="my-4 flex items-center">
+        <hr class="flex-grow border-gray-300" />
+        <span class="mx-2 text-sm text-gray-500">O continúa de otra manera</span>
+        <hr class="flex-grow border-gray-300" />
+      </div>
+
+      <button class="w-full border border-gray-300 py-2 rounded flex items-center justify-center gap-2 hover:bg-gray-100">
+        <img src="https://img.icons8.com/color/24/000000/google-logo.png" alt="Google" />
+        Continuar con Google
+      </button>
+
+      <p class="text-xs text-gray-500 mt-6 text-center">
+        Al continuar, aceptas nuestros <a href="#" class="underline">Términos de uso</a> y <a href="#" class="underline">Política de privacidad</a>.
+      </p>
+
+      <div class="mt-8 border-t pt-4">
+        <p class="text-sm text-center"><strong>Envío gratis</strong><br />En todos los pedidos</p>
+        <p class="text-sm text-center mt-2"><strong>Devolución en un plazo de 90 días</strong><br />desde la fecha de compra</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="productosPage" class="hidden p-6">
+    <div class="flex justify-between items-center mb-4 sticky top-0 bg-gray-100 z-10 p-2">
+      <button onclick="volverAlLogin()" class="text-sm temu-text">← Cerrar sesión</button>
+      <div class="flex-grow text-center">
+        <h2 class="text-3xl font-bold temu-text">Recomendados para ti</h2>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Camisa" />
+        <h3 class="text-lg font-semibold">Camisa de Lino</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Lámpara" />
+        <h3 class="text-lg font-semibold">Lámpara de Escritorio</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Audífonos" />
+        <h3 class="text-lg font-semibold">Audífonos Bluetooth</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/computer.png" class="w-full mb-2" alt="Pixel Art Computadora" />
+        <h3 class="text-lg font-semibold">Computadora de Escritorio</h3>
+        <p class="text-green-600 font-bold">₡750,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Vestido" />
+        <h3 class="text-lg font-semibold">Vestido de Verano Casual</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="w-full mb-2" alt="Pixel Art Tenis" />
+        <h3 class="text-lg font-semibold">Zapatillas Deportivas</h3>
+        <p class="text-green-600 font-bold">₡28,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/headset.png" class="w-full mb-2" alt="Pixel Art Bolso" />
+        <h3 class="text-lg font-semibold">Bolso de Hombro Elegante</h3>
+        <p class="text-green-600 font-bold">₡18,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/desk.png" class="w-full mb-2" alt="Pixel Art Organizador" />
+        <h3 class="text-lg font-semibold">Organizador de Maquillaje</h3>
+        <p class="text-green-600 font-bold">₡9,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/keyboard.png" class="w-full mb-2" alt="Pixel Art T-shirt" />
+        <h3 class="text-lg font-semibold">Camiseta de Algodón Premium</h3>
+        <p class="text-green-600 font-bold">₡8,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monitor.png" class="w-full mb-2" alt="Pixel Art Taza" />
+        <h3 class="text-lg font-semibold">Taza de Café con Diseño</h3>
+        <p class="text-green-600 font-bold">₡4,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/watch.png" class="w-full mb-2" alt="Pixel Art Reloj" />
+        <h3 class="text-lg font-semibold">Reloj de Pulsera Clásico</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tablet.png" class="w-full mb-2" alt="Pixel Art Tablet" />
+        <h3 class="text-lg font-semibold">Tablet de 10 Pulgadas</h3>
+        <p class="text-green-600 font-bold">₡180,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/camera.png" class="w-full mb-2" alt="Pixel Art Cámara" />
+        <h3 class="text-lg font-semibold">Cámara Mirrorless Profesional</h3>
+        <p class="text-green-600 font-bold">₡450,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/printer.png" class="w-full mb-2" alt="Pixel Art Impresora" />
+        <h3 class="text-lg font-semibold">Impresora Multifunción Inalámbrica</h3>
+        <p class="text-green-600 font-bold">₡90,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/router.png" class="w-full mb-2" alt="Pixel Art Router" />
+        <h3 class="text-lg font-semibold">Router Wifi de Alta Velocidad</h3>
+        <p class="text-green-600 font-bold">₡60,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/usb_drive.png" class="w-full mb-2" alt="Pixel Art Disco Duro" />
+        <h3 class="text-lg font-semibold">Disco Duro Externo 2TB</h3>
+        <p class="text-green-600 font-bold">₡80,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/webcam.png" class="w-full mb-2" alt="Pixel Art Webcam" />
+        <h3 class="text-lg font-semibold">Webcam Full HD</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/speaker.png" class="w-full mb-2" alt="Pixel Art Altavoz" />
+        <h3 class="text-lg font-semibold">Altavoz Inteligente con Asistente Virtual</h3>
+        <p class="text-green-600 font-bold">₡55,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/game_console.png" class="w-full mb-2" alt="Pixel Art Consola" />
+        <h3 class="text-lg font-semibold">Consola de Videojuegos de Nueva Generación</h3>
+        <p class="text-green-600 font-bold">₡580,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Paja</h3>
+        <p class="text-green-600 font-bold">₡7,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/apricorn.png" class="w-full mb-2" alt="Pixel Art Zapatos" />
+        <h3 class="text-lg font-semibold">Botines de Cuero</h3>
+        <p class="text-green-600 font-bold">₡45,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bag.png" class="w-full mb-2" alt="Pixel Art Mochila" />
+        <h3 class="text-lg font-semibold">Mochila Urbana</h3>
+        <p class="text-green-600 font-bold">₡22,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bandage.png" class="w-full mb-2" alt="Pixel Art Bufanda" />
+        <h3 class="text-lg font-semibold">Bufanda de Lana</h3>
+        <p class="text-green-600 font-bold">₡10,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Perlas</h3>
+        <p class="text-green-600 font-bold">₡30,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bottle.png" class="w-full mb-2" alt="Pixel Art Botella" />
+        <h3 class="text-lg font-semibold">Botella de Agua Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡5,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bracelet.png" class="w-full mb-2" alt="Pixel Art Pulsera" />
+        <h3 class="text-lg font-semibold">Pulsera de Plata</h3>
+        <p class="text-green-600 font-bold">₡25,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/candle.png" class="w-full mb-2" alt="Pixel Art Vela" />
+        <h3 class="text-lg font-semibold">Vela Aromática</h3>
+        <p class="text-green-600 font-bold">₡3,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cape.png" class="w-full mb-2" alt="Pixel Art Capa" />
+        <h3 class="text-lg font-semibold">Capa de Lluvia</h3>
+        <p class="text-green-600 font-bold">₡12,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/case.png" class="w-full mb-2" alt="Pixel Art Estuche" />
+        <h3 class="text-lg font-semibold">Estuche para Gafas</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/coin.png" class="w-full mb-2" alt="Pixel Art Monedero" />
+        <h3 class="text-lg font-semibold">Monedero de Cuero</h3>
+        <p class="text-green-600 font-bold">₡15,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dress.png" class="w-full mb-2" alt="Pixel Art Vestido de Gala" />
+        <h3 class="text-lg font-semibold">Vestido de Gala</h3>
+        <p class="text-green-600 font-bold">₡50,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/glove.png" class="w-full mb-2" alt="Pixel Art Guantes" />
+        <h3 class="text-lg font-semibold">Guantes de Invierno</h3>
+        <p class="text-green-600 font-bold">₡8,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hat.png" class="w-full mb-2" alt="Pixel Art Sombrero" />
+        <h3 class="text-lg font-semibold">Sombrero de Lana</h3>
+        <p class="text-green-600 font-bold">₡11,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key.png" class="w-full mb-2" alt="Pixel Art Llavero" />
+        <h3 class="text-lg font-semibold">Llavero con diseño</h3>
+        <p class="text-green-600 font-bold">₡2,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mask.png" class="w-full mb-2" alt="Pixel Art Mascarilla" />
+        <h3 class="text-lg font-semibold">Mascarilla de Tela Reutilizable</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/necklace.png" class="w-full mb-2" alt="Pixel Art Collar" />
+        <h3 class="text-lg font-semibold">Collar de Diamantes</h3>
+        <p class="text-green-600 font-bold">₡150,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pencil.png" class="w-full mb-2" alt="Pixel Art Lápices" />
+        <h3 class="text-lg font-semibold">Set de Lápices de Colores</h3>
+        <p class="text-green-600 font-bold">₡6,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/phone.png" class="w-full mb-2" alt="Pixel Art Celular" />
+        <h3 class="text-lg font-semibold">Carcasa para Teléfono</h3>
+        <p class="text-green-600 font-bold">₡7,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ring.png" class="w-full mb-2" alt="Pixel Art Anillo" />
+        <h3 class="text-lg font-semibold">Anillo de Compromiso</h3>
+        <p class="text-green-600 font-bold">₡250,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ruler.png" class="w-full mb-2" alt="Pixel Art Regla" />
+        <h3 class="text-lg font-semibold">Regla de Metal</h3>
+        <p class="text-green-600 font-bold">₡1,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scissors.png" class="w-full mb-2" alt="Pixel Art Tijeras" />
+        <h3 class="text-lg font-semibold">Tijeras de Cocina</h3>
+        <p class="text-green-600 font-bold">₡4,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shoe.png" class="w-full mb-2" alt="Pixel Art Zapato" />
+        <h3 class="text-lg font-semibold">Zapatos de Vestir</h3>
+        <p class="text-green-600 font-bold">₡35,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/socks.png" class="w-full mb-2" alt="Pixel Art Calcetines" />
+        <h3 class="text-lg font-semibold">Set de Calcetines</h3>
+        <p class="text-green-600 font-bold">₡5,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spoon.png" class="w-full mb-2" alt="Pixel Art Cuchara" />
+        <h3 class="text-lg font-semibold">Set de Cubiertos de Lujo</h3>
+        <p class="text-green-600 font-bold">₡18,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/umbrella.png" class="w-full mb-2" alt="Pixel Art Paraguas" />
+        <h3 class="text-lg font-semibold">Paraguas Plegable</h3>
+        <p class="text-green-600 font-bold">₡9,500</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      <div class="producto bg-white p-4 rounded shadow">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/whistle.png" class="w-full mb-2" alt="Pixel Art Silbato" />
+        <h3 class="text-lg font-semibold">Silbato de Emergencia</h3>
+        <p class="text-green-600 font-bold">₡2,000</p>
+        <button onclick="comprar()" class="mt-2 temu-color temu-hover text-white py-1 px-3 rounded">Comprar</button>
+      </div>
+      </div>
+  </div>
+
+  <div id="pagoPage" class="hidden min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-2xl flex flex-col md:flex-row gap-8">
+      <div class="md:w-2/3">
+        <button onclick="volverAProductos()" class="mb-4 text-sm temu-text">← Volver a productos</button>
+        <h2 class="text-2xl font-bold mb-6 temu-text">Información de Pago</h2>
+
+        <h3 class="text-lg font-semibold mb-2">Detalles de la tarjeta de crédito/débito</h3>
+        <div class="flex items-center space-x-2 mb-4" id="cardLogos">
+          <img id="visa-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" alt="Visa" class="h-8 opacity-20" />
+          <img id="mastercard-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/1200px-Mastercard_2019_logo.svg.png" alt="Mastercard" class="h-8 opacity-20" />
+          <img id="amex-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/American_Express_logo_%282018%29.svg/1200px-American_Express_logo_%282018%29.svg.png" alt="Amex" class="h-8 opacity-20" />
+        </div>
+        <input id="cardName" type="text" placeholder="Nombre del titular de la tarjeta" class="w-full mb-4 p-2 border rounded" />
+        <input id="cardNumber" type="text" placeholder="Número de tarjeta (16 dígitos)" class="w-full mb-4 p-2 border rounded" inputmode="numeric" oninput="validateCard(this.value)" />
+        <div class="flex mb-4 gap-2">
+          <input id="cardExpiry" type="text" placeholder="MM/AA" class="w-1/2 p-2 border rounded" inputmode="numeric" oninput="formatExpiry(this)" />
+          <input id="cardCvv" type="text" placeholder="CVV" class="w-1/2 p-2 border rounded" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 4)" />
+        </div>
+        <div class="flex items-center mb-6">
+          <input type="checkbox" id="guardarTarjeta" class="mr-2" />
+          <label for="guardarTarjeta" class="text-sm text-gray-700">Guardar esta tarjeta para futuras compras</label>
+        </div>
+
+        <h3 class="text-lg font-semibold mb-2">Dirección de facturación</h3>
+        <input id="billingAddress" type="text" placeholder="Dirección" class="w-full mb-4 p-2 border rounded" />
+        <div class="flex mb-4 gap-2">
+          <input id="billingCity" type="text" placeholder="Ciudad" class="w-1/2 p-2 border rounded" />
+          <input id="billingState" type="text" placeholder="Provincia/Estado" class="w-1/2 p-2 border rounded" />
+        </div>
+        <div class="flex mb-6 gap-2">
+          <input id="billingZip" type="text" placeholder="Código Postal" class="w-1/2 p-2 border rounded" />
+          <select id="billingCountry" class="w-1/2 p-2 border rounded">
+            <option value="">Selecciona un país</option>
+            <option value="CR">Costa Rica</option>
+            <option value="MX">México</option>
+            <option value="ES">España</option>
+            <option value="CO">Colombia</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="md:w-1/3 bg-gray-50 p-6 rounded-md shadow-inner">
+        <h3 class="text-xl font-bold mb-4">Resumen del Pedido</h3>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Subtotal</span>
+          <span class="font-semibold">₡12,000</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Envío</span>
+          <span class="font-semibold">₡0</span>
+        </div>
+        <div class="flex justify-between mb-4 border-b pb-4">
+          <span class="text-gray-600">Impuestos</span>
+          <span class="font-semibold">₡1,560</span>
+        </div>
+        <div class="flex justify-between text-xl font-bold">
+          <span>Total</span>
+          <span class="temu-text">₡13,560</span>
+        </div>
+        
+        <button onclick="pagar()" class="w-full mt-6 temu-color temu-hover text-white py-2 rounded font-bold">Pagar ahora</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function iniciarSesion() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      if (!email.includes('@') || password.length < 1) {
+        alert("Por favor, introduce un email válido y una contraseña.");
+        return;
+      }
+
+      document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("productosPage").classList.remove("hidden");
+    }
+
+    function comprar() {
+      document.getElementById("productosPage").classList.add("hidden");
+      document.getElementById("pagoPage").classList.remove("hidden");
+    }
+
+    function pagar() {
+      const cardName = document.getElementById("cardName").value;
+      const cardNumber = document.getElementById("cardNumber").value.replace(/\s/g, '');
+      const cardExpiry = document.getElementById("cardExpiry").value;
+      const cardCvv = document.getElementById("cardCvv").value;
+      const billingAddress = document.getElementById("billingAddress").value;
+      const billingCity = document.getElementById("billingCity").value;
+      const billingState = document.getElementById("billingState").value;
+      const billingZip = document.getElementById("billingZip").value;
+      const billingCountry = document.getElementById("billingCountry").value;
+      
+      const cardNumberRegex = /^\d{16}$/;
+      const cardExpiryRegex = /^\d{2}\/\d{2}$/;
+      const cardCvvRegex = /^\d{3,4}$/;
+
+      if (!cardName || !cardNumber || !cardExpiry || !cardCvv || !billingAddress || !billingCity || !billingState || !billingZip || !billingCountry) {
+        alert("Por favor, rellena todos los campos del formulario de pago.");
+        return;
+      }
+
+      if (!cardNumberRegex.test(cardNumber)) {
+        alert("Por favor, introduce un número de tarjeta válido de 16 dígitos.");
+        return;
+      }
+      
+      if (!cardExpiryRegex.test(cardExpiry)) {
+        alert("Por favor, introduce una fecha de expiración válida en formato MM/AA.");
+        return;
+      }
+      
+      if (!cardCvvRegex.test(cardCvv)) {
+        alert("Por favor, introduce un CVV válido de 3 o 4 dígitos.");
+        return;
+      }
+
+      alert("Pago procesado. ¡Gracias por tu compra!");
+      location.reload();
+    }
+
+    function volverAlLogin() {
+      document.getElementById("productosPage").classList.add("hidden");
+      document.getElementById("loginPage").classList.remove("hidden");
+    }
+
+    function volverAProductos() {
+      document.getElementById("pagoPage").classList.add("hidden");
+      document.getElementById("productosPage").classList.remove("hidden");
+    }
+    
+    function formatExpiry(input) {
+      const value = input.value.replace(/\D/g, '');
+      if (value.length > 2) {
+        input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      } else {
+        input.value = value;
+      }
+    }
+
+    function validateCard(cardNumber) {
+      const visaLogo = document.getElementById('visa-logo');
+      const mastercardLogo = document.getElementById('mastercard-logo');
+      const amexLogo = document.getElementById('amex-logo');
+
+      // Resetear opacidad
+      visaLogo.style.opacity = '0.2';
+      mastercardLogo.style.opacity = '0.2';
+      amexLogo.style.opacity = '0.2';
+
+      const cleanedNumber = cardNumber.replace(/\s/g, '');
+
+      // Detección de tarjetas
+      if (cleanedNumber.startsWith('4')) {
+        visaLogo.style.opacity = '1';
+      } else if (cleanedNumber.startsWith('5')) {
+        mastercardLogo.style.opacity = '1';
+      } else if (cleanedNumber.startsWith('34') || cleanedNumber.startsWith('37')) {
+        amexLogo.style.opacity = '1';
+      }
+    }
+  </script>
+
+</body>
+</html>
